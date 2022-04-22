@@ -23,18 +23,21 @@ let  pokedex =  (function () {
         }
     ];
 
-    return {
-        add: function (pokemon) {
-            if (typeof pokemon !== 'Object') {
-                return false;
-            }
-
-            pokemonList.push(pokemon);
-            return true;
-        },
-        getAll: function () {
-            return  pokemonList;
+    function add(pokemon) {
+        if (typeof pokemon !== 'Object') {
+            return false;
         }
+        pokemonList.push(pokemon);
+        return true;
+    }
+
+    function getAll() {
+        return pokemonList;
+    }
+
+    return {
+        add: add,
+        getAll: getAll
     }
 })();
 
