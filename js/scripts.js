@@ -39,9 +39,27 @@ let  pokedex =  (function () {
         return pokemonList;
     }
 
+    function get(pokemonName) {
+        if (typeof pokemonName !== 'string') {
+            return [];
+        }
+        let result = pokemonList.filter(pokemon => pokemon.name === pokemonName)
+        return result;
+    }
+
+    function remove(pokemonName) {
+        if (typeof pokemonName !== 'string') {
+            return false;
+        }
+        pokemonList = pokemonList.filter(pokemon => pokemon.name !== pokemonName)
+        return true;
+    }
+
     return {
         add: add,
-        getAll: getAll
+        getAll: getAll,
+        get: get,
+        remove: remove
     }
 })();
 
