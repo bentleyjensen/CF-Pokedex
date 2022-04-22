@@ -22,15 +22,15 @@ let pokemonList = [
     }
 ];
 
-// Iterate each pokemon
-for (let i = 0; i < pokemonList.length; i++) {
-    document.write(`<h1>${pokemonList[i].name}</h1>`);
+// Print each pokemon
+pokemonList.forEach(function(pokemon){
+    document.write(`<h1>${pokemon.name}</h1>`);
 
     // print the height of the pokemon
     // Leave a note if they're especially small or large
-    let height = pokemonList[i].height;
+    let height = pokemon.height;
     document.write(`<p>Height: ${height}`);
-    if (height > 5){
+    if (height > 5) {
         document.write(" (He's huge!)");
     } else if (height <= 0.5) {
         document.write(" (So cute and little!)");
@@ -40,11 +40,11 @@ for (let i = 0; i < pokemonList.length; i++) {
 
     // Start types section
     document.write(`<p>Types: `);
-    
+
     // Iterate types for each pokemon
-    for (let j = 0; j < pokemonList[i].types.length; j++) {
-        document.write(`<br>${pokemonList[i].types[j]}`);
+    for (let j = 0; j < pokemon.types.length; j++) {
+        document.write(`<br>${pokemon.types[j]}`);
     }
     // End types section
     document.write(`</p>`);
-}
+});
