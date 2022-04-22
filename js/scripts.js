@@ -1,29 +1,45 @@
-let pokemonList = [
-    {
-        name: 'Gyarados',
-        height: 6.5,
-        types: ['water', 'flying']
-    },{
-        name: 'Ninetales',
-        height: 1.1,
-        types: ['fire']
-    },{
-        name: 'Houndour',
-        height: 0.6,
-        types: ['dark', 'fire']
-    },{
-        name: 'Mantine',
-        height: 2.1,
-        types: ['water', 'flying']
-    },{
-        name: 'Phanpy',
-        height: 0.5,
-        types: ['ground']
+let  pokedex =  (function () {
+    let pokemonList = [
+        {
+            name: 'Gyarados',
+            height: 6.5,
+            types: ['water', 'flying']
+        },{
+            name: 'Ninetales',
+            height: 1.1,
+            types: ['fire']
+        },{
+            name: 'Houndour',
+            height: 0.6,
+            types: ['dark', 'fire']
+        },{
+            name: 'Mantine',
+            height: 2.1,
+            types: ['water', 'flying']
+        },{
+            name: 'Phanpy',
+            height: 0.5,
+            types: ['ground']
+        }
+    ];
+
+    return {
+        add: function (pokemon) {
+            if (typeof pokemon !== 'Object') {
+                return false;
+            }
+
+            pokemonList.push(pokemon);
+            return true;
+        },
+        getAll: function () {
+            return  pokemonList;
+        }
     }
-];
+})();
 
 // Print each pokemon
-pokemonList.forEach(function(pokemon){
+pokedex.getAll().forEach(function(pokemon){
     document.write(`<h1>${pokemon.name}</h1>`);
 
     // print the height of the pokemon
