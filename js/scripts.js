@@ -24,11 +24,15 @@ let  pokedex =  (function () {
     ];
 
     function add(pokemon) {
-        if (typeof pokemon !== 'Object') {
-            return false;
+        if (pokemon.name 
+        && pokemon.height
+        && pokemon.types
+        &&  Object.keys(pokemon).length  === 3) {
+            pokemonList.push(pokemon);
+            return true;
         }
-        pokemonList.push(pokemon);
-        return true;
+
+        return false;
     }
 
     function getAll() {
