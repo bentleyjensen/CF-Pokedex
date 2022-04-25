@@ -27,7 +27,7 @@ let  pokedex =  (function () {
         if (pokemon.name 
         && pokemon.height
         && pokemon.types
-        &&  Object.keys(pokemon).length  === 3) {
+        &&  Object.keys(pokemon).length === 3) {
             pokemonList.push(pokemon);
             return true;
         }
@@ -55,37 +55,29 @@ let  pokedex =  (function () {
         return true;
     }
 
+    function addToList(pokemon) {
+        // Parent Element to append to
+        let ul = document.querySelector('#pokemon-list');
+
+        // Create children to append
+        let li = document.createElement('li');
+        let button = document.createElement('button');
+
+        button.innerText = pokemon.name;
+        button.classList.add('pokemon-button');
+
+        li.appendChild(button);
+        ul.appendChild(li);
+    }
+
     return {
         add: add,
         getAll: getAll,
         get: get,
-        remove: remove
+        remove: remove,
+        addToList: addToList
     }
 })();
 
 // Print each pokemon
-pokedex.getAll().forEach(function(pokemon){
-    document.write(`<h1>${pokemon.name}</h1>`);
-
-    // print the height of the pokemon
-    // Leave a note if they're especially small or large
-    let height = pokemon.height;
-    document.write(`<p>Height: ${height}`);
-    if (height > 5) {
-        document.write(" (He's huge!)");
-    } else if (height <= 0.5) {
-        document.write(" (So cute and little!)");
-    }
-    document.write('</p>');
-
-
-    // Start types section
-    document.write(`<p>Types: `);
-
-    // Iterate types for each pokemon
-    for (let j = 0; j < pokemon.types.length; j++) {
-        document.write(`<br>${pokemon.types[j]}`);
-    }
-    // End types section
-    document.write(`</p>`);
-});
+pokedex.getAll().forEach(pokedex.addToList);
