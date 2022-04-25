@@ -1,0 +1,24 @@
+{
+  "name": "pokedex",
+  "version": "1.0.0",
+  "description": "This is Achievement 1 for the Full Stack Immersion course from CareerFoundry.com.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bentleyjensen/CF-Pokedex.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bentleyjensen/CF-Pokedex/issues"
+  },
+  "homepage": "https://github.com/bentleyjensen/CF-Pokedex#readme",
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "stylelint-config-recommended": "^7.0.0",
+    "stylelint-config-standard": "^25.0.0"
+  }
+}
