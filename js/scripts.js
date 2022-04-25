@@ -1,4 +1,4 @@
-let  pokedex =  (function () {
+let pokedex = (function () {
     let pokemonList = [
         {
             name: 'Gyarados',
@@ -27,7 +27,7 @@ let  pokedex =  (function () {
         if (pokemon.name 
         && pokemon.height
         && pokemon.types
-        &&  Object.keys(pokemon).length === 3) {
+        && Object.keys(pokemon).length === 3) {
             pokemonList.push(pokemon);
             return true;
         }
@@ -43,7 +43,7 @@ let  pokedex =  (function () {
         if (typeof pokemonName !== 'string') {
             return [];
         }
-        let result = pokemonList.filter(pokemon => pokemon.name === pokemonName)
+        let result = pokemonList.filter(pokemon => pokemon.name === pokemonName);
         return result;
     }
 
@@ -51,7 +51,7 @@ let  pokedex =  (function () {
         if (typeof pokemonName !== 'string') {
             return false;
         }
-        pokemonList = pokemonList.filter(pokemon => pokemon.name !== pokemonName)
+        pokemonList = pokemonList.filter(pokemon => pokemon.name !== pokemonName);
         return true;
     }
 
@@ -76,7 +76,7 @@ let  pokedex =  (function () {
         get: get,
         remove: remove,
         addToList: addToList
-    }
+    };
 })();
 
 // Print each pokemon
