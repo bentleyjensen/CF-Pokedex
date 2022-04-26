@@ -26,6 +26,20 @@ let pokedex = (function () {
             });
     }
 
+    function loadDetails(item) {
+        return fetch(item.detailsUrl)
+            .then(function (response){
+                return response.json();
+            })
+            .then(function(details){
+                item.imageUrl = details.sprites.front_default;
+                item.height = details.height;
+                item.types = details.types;
+            }).catch(function (e) {
+                console.error(e);
+            });
+    }
+
     function add(pokemon) {
         if (pokemon.name 
         && pokemon.detailUrl
@@ -77,12 +91,16 @@ let pokedex = (function () {
     }
 
     function showDetails(event,pokemon) {
-        console.log(event.type);
-        console.log(pokemon.name);
+        loadDetails(pokemon)
+            .then(function (){
+                console.log(event.type);
+                console.log(pokemon);
+            });
     }
 
     return {
         loadList: loadList,
+        loadDetails: loadDetails,
         add: add,
         getAll: getAll,
         get: get,
