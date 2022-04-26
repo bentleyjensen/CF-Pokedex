@@ -66,21 +66,17 @@ let pokedex = (function () {
         button.innerText = pokemon.name;
         button.classList.add('pokemon-button');
 
-        // This EXECUTES showDetails() when the event is ADDED,
-        // and does not when the element is clicked
-        // button.addEventListener('click', pokedex.showDetails(pokemon));
-
-        // This passes the event object to showDetails(),
-        // and does not have access to/cannot pass the pokemon object
-        // button.addEventListener('click', pokedex.showDetails);
+        button.addEventListener('click', function (event) {
+            pokedex.showDetails(event,pokemon);
+        });
 
         li.appendChild(button);
         ul.appendChild(li);
     }
 
-    // TODO: Will expand in later tasks
-    function showDetails (pokemon) {
-        console.log(Object.keys(pokemon));
+    function showDetails(event,pokemon) {
+        console.log(event.type);
+        console.log(pokemon.name);
     }
 
     return {
