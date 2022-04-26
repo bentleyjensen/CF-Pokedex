@@ -1,33 +1,35 @@
 let pokedex = (function () {
-    let pokemonList = [
-        {
-            name: 'Gyarados',
-            height: 6.5,
-            types: ['water', 'flying']
-        },{
-            name: 'Ninetales',
-            height: 1.1,
-            types: ['fire']
-        },{
-            name: 'Houndour',
-            height: 0.6,
-            types: ['dark', 'fire']
-        },{
-            name: 'Mantine',
-            height: 2.1,
-            types: ['water', 'flying']
-        },{
-            name: 'Phanpy',
-            height: 0.5,
-            types: ['ground']
-        }
-    ];
+    let pokemonList = [];
+    const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+
+    function loadList() {
+        return fetch(apiUrl)
+            .then(function (response){
+                return response.json();
+            })
+            .then(function (json){
+                json.results.forEach(function (result){
+                    let pokemon = {
+                        'name': result.name,
+                        'detailUrl': result.url
+                    };
+                    const added = this.add(pokemon);
+                    if (!added) {
+                        console.log('Error adding pokemon:', pokemon);
+                    } else {
+                        console.log(`Added ${pokemon.name}`);
+                    }
+                });
+            })
+            .catch(function (e) {
+                console.error(e);
+            });
+    }
 
     function add(pokemon) {
         if (pokemon.name 
-        && pokemon.height
-        && pokemon.types
-        && Object.keys(pokemon).length === 3) {
+        && pokemon.detailUrl
+        && Object.keys(pokemon).length === 2) {
             pokemonList.push(pokemon);
             return true;
         }
@@ -80,6 +82,7 @@ let pokedex = (function () {
     }
 
     return {
+        loadList: loadList,
         add: add,
         getAll: getAll,
         get: get,
@@ -89,5 +92,8 @@ let pokedex = (function () {
     };
 })();
 
-// Print each pokemon
-pokedex.getAll().forEach(pokedex.addToList);
+pokedex.loadList().then(function() {
+    // Print each pokemon
+    pokedex.getAll().forEach(pokedex.addToList);
+})
+;
