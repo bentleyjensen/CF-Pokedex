@@ -20,3 +20,17 @@
   border: 3px solid darkgray;
   background-color: darkgray;
 }
+
+.pokemon-details {
+  display: block;
+  background: lightgray;
+  width: 30%;
+}
+
+.pokemon-details-img {
+  height: 100px;
+}
+
+.loading-gif {
+  display: hidden;
+}

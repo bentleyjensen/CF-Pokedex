@@ -2,7 +2,27 @@ let pokedex = (function () {
     let pokemonList = [];
     const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
-    function loadList() {
+    function showLoadingMessage(element) {
+        let loader = document.createElement('img');
+
+        loader.classList.add('loading-gif');
+        loader.src = 'img/loading.gif';
+
+        element.appendChild(loader);
+    }
+
+    function hideLoadingMessage(element) {
+        let loader = element.querySelector('.loading-gif');
+
+        if (loader) {
+            loader.remove();
+        }
+    }
+
+    function fetchRemoteList() {
+        let mainList = document.querySelector('#pokemon-list');
+        pokedex.showLoadingMessage(mainList);
+
         return fetch(apiUrl)
             .then(function (response){
                 return response.json();
@@ -13,34 +33,40 @@ let pokedex = (function () {
                         'name': result.name,
                         'detailUrl': result.url
                     };
-                    const added = this.add(pokemon);
+                    const added = pokedex.addToPokedex(pokemon);
                     if (!added) {
-                        console.log('Error adding pokemon:', pokemon);
-                    } else {
-                        console.log(`Added ${pokemon.name}`);
+                        console.error('Error adding pokemon:', pokemon);
                     }
                 });
             })
+            .then(function () {
+                pokedex.hideLoadingMessage(mainList);
+            })
             .catch(function (e) {
+                pokedex.hideLoadingMessage(mainList);
                 console.error(e);
             });
     }
 
-    function loadDetails(item) {
-        return fetch(item.detailsUrl)
+    // TODO: Figure out if we need to return the new pokemon,
+    // or if it was passed by reference and doesn't need updated
+    function fetchRemoteDetails(pokemon) {
+        return fetch(pokemon.detailUrl)
             .then(function (response){
                 return response.json();
             })
             .then(function(details){
-                item.imageUrl = details.sprites.front_default;
-                item.height = details.height;
-                item.types = details.types;
+                pokemon.imageUrl = details.sprites.front_default;
+                pokemon.height = details.height;
+                pokemon.types = details.types;
+
+                return pokemon;
             }).catch(function (e) {
                 console.error(e);
             });
     }
 
-    function add(pokemon) {
+    function addToPokedex(pokemon) {
         if (pokemon.name 
         && pokemon.detailUrl
         && Object.keys(pokemon).length === 2) {
@@ -71,7 +97,7 @@ let pokedex = (function () {
         return true;
     }
 
-    function addToList(pokemon) {
+    function addToPage(pokemon) {
         // Parent Element to append to
         let ul = document.querySelector('#pokemon-list');
 
@@ -91,27 +117,88 @@ let pokedex = (function () {
     }
 
     function showDetails(event,pokemon) {
-        loadDetails(pokemon)
+        // Prevent duplicating the details section
+        if (event.srcElement.parentElement.querySelector('.pokemon-details')) {
+            return;
+        }
+
+        // We're passing the element to show the loader in the correct place
+        showLoadingMessage(event.srcElement.parentElement);
+
+        // Populate the details for the pokemon
+        pokedex.fetchRemoteDetails(pokemon)
+            // Create elements for the details
             .then(function (){
-                console.log(event.type);
-                console.log(pokemon);
+                // The div where all the details will live
+                let detailsDiv = document.createElement('div');
+                detailsDiv.classList.add('pokemon-details');
+
+                ///////////////////////////
+                // Detail Children Elements
+                ///////////////////////////
+
+                // Title (Pokemon name)
+                let detailTitle = document.createElement('h1');
+                detailTitle.innerHTML = pokemon.name;
+                detailsDiv.appendChild(detailTitle);
+
+                // Pokemon Picture
+                let detailPicture = document.createElement('img');
+                detailPicture.classList.add('.pokemon-details-img');
+                detailPicture.src = pokemon.imageUrl;
+                detailsDiv.appendChild(detailPicture);
+
+                // Pokemon height in decimeters (10 cm)
+                let detailHeight = document.createElement('p');
+                detailHeight.innerHTML = `${pokemon.height} decimeters`;
+                detailsDiv.appendChild(detailHeight);
+
+                // List of pokemon types
+                // Start list
+                let detailTypes = document.createElement('ul');
+
+                // Setup Each list item with one type and add to list
+                pokemon.types.forEach(function (type) {
+                    let typeListItem = document.createElement('li');
+                    typeListItem.classList.add('pokemon-type-li');
+                    typeListItem.innerHTML = type;
+                    detailTypes.appendChild(typeListItem);
+                });
+
+                // Append full list to the details
+                detailsDiv.appendChild(detailTypes);
+
+                // Add the completed details to the page
+                event.srcElement.parentElement.appendChild(detailsDiv);
+            })
+            .then(function () {
+                hideLoadingMessage(event.srcElement.parentElement);
+            })
+            .catch(function (){
+                hideLoadingMessage(event.srcElement.parentElement);
             });
     }
 
     return {
-        loadList: loadList,
-        loadDetails: loadDetails,
-        add: add,
+        showLoadingMessage: showLoadingMessage,
+        hideLoadingMessage: hideLoadingMessage,
+        fetchRemoteList: fetchRemoteList,
+        fetchRemoteDetails: fetchRemoteDetails,
+        addToPokedex: addToPokedex,
         getAll: getAll,
         get: get,
         remove: remove,
-        addToList: addToList,
+        addToPage: addToPage,
         showDetails: showDetails
     };
 })();
 
-pokedex.loadList().then(function() {
-    // Print each pokemon
-    pokedex.getAll().forEach(pokedex.addToList);
-})
-;
+pokedex.fetchRemoteList()
+    .then(function() {
+        // Print each pokemon
+        pokedex.getAll().forEach(pokedex.addToPage);
+    })
+    .catch(function (err) {
+        console.error('Error with inital load');
+        console.error(err);
+    });
