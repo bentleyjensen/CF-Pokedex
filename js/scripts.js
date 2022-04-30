@@ -185,6 +185,11 @@ const pokedex = (() => {
             });
     }
 
+    function closeDetails() {
+        const modal = document.querySelector('#modal-container');
+        modal.classList.remove('is-visible');
+    }
+
     function capitalize(input) {
         let parseString = '';
 
@@ -209,7 +214,8 @@ const pokedex = (() => {
         remove: remove,
         addToPage: addToPage,
         showDetails: showDetails,
-        capitalize: capitalize
+        closeDetails: closeDetails,
+        capitalize: capitalize,
     };
 })();
 
@@ -227,14 +233,14 @@ pokedex.fetchRemoteList()
         // Close an open modal when escape is pressed
         document.addEventListener('keyup', (event) => {
             if (event.key === 'Escape' && modal.classList.contains('is-visible')) {
-                closeModal();
+                pokedex.closeDetails();
             }
         });
 
         // Close an open modal if click is outside modal
         modal.addEventListener('click', (event) => {
             if (event.target == modal) {
-                closeModal();
+                pokedex.closeDetails();
             }
         });
     })
@@ -242,8 +248,3 @@ pokedex.fetchRemoteList()
         console.error('Error with inital load');
         console.error(err);
     });
-
-function closeModal() {
-    const modal = document.querySelector('#modal-container');
-    modal.classList.remove('is-visible');
-}
