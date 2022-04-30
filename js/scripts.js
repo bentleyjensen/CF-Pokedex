@@ -117,8 +117,10 @@ let pokedex = (function () {
     }
 
     function showDetails(event,pokemon) {
-        // Prevent duplicating the details section
-        if (event.srcElement.parentElement.querySelector('.pokemon-details')) {
+        // Remove details if they're already open
+        let existingDetails = event.srcElement.parentElement.querySelector('.pokemon-details');
+        if (existingDetails) {
+            existingDetails.remove();
             return;
         }
 
