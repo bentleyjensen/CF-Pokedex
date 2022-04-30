@@ -117,11 +117,12 @@ let pokedex = (function () {
     }
 
     function showDetails(event,pokemon) {
-        // Remove details if they're already open
-        let existingDetails = event.srcElement.parentElement.querySelector('.pokemon-details');
+        let modal = document.querySelector('#modal');
+
+        // Remove details of previous modal open
+        let existingDetails = modal.querySelector('.pokemon-details');
         if (existingDetails) {
             existingDetails.remove();
-            return;
         }
 
         // We're passing the element to show the loader in the correct place
@@ -177,7 +178,6 @@ let pokedex = (function () {
                 detailsDiv.appendChild(detailTypes);
 
                 // Add the completed details to the page
-                let modal = document.querySelector('#modal');
                 modal.appendChild(detailsDiv);
                 modal.parentElement.classList.add('is-visible');
             })
@@ -226,3 +226,10 @@ pokedex.fetchRemoteList()
         console.error('Error with inital load');
         console.error(err);
     });
+
+// Set in HTML, not used within the file
+// eslint-disable-next-line no-unused-vars
+function closeModal() {
+    const modal = document.querySelector('#modal-container');
+    modal.classList.remove('is-visible');
+}
