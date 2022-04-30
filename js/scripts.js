@@ -177,7 +177,9 @@ let pokedex = (function () {
                 detailsDiv.appendChild(detailTypes);
 
                 // Add the completed details to the page
-                event.srcElement.parentElement.appendChild(detailsDiv);
+                let modal = document.querySelector('#modal');
+                modal.appendChild(detailsDiv);
+                modal.parentElement.classList.add('is-visible');
             })
             .then(function () {
                 hideLoadingMessage(event.srcElement.parentElement);
