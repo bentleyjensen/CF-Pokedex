@@ -217,18 +217,29 @@ const pokedex = (function () {
     };
 })();
 
+// First, get all the pokemons
 pokedex.fetchRemoteList()
+    // Then add the pokemon to the page
     .then(function() {
         // Print each pokemon
         pokedex.getAll().forEach(pokedex.addToPage);
+    })
+    // Do some other miscelaneous page setup
+    .then(function() {
+        const modal = document.querySelector('#modal-container');
+
+        // Close an open modal when escape is pressed
+        document.addEventListener('keyup', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('is-visible')) {
+                closeModal();
+            }
+        });
     })
     .catch(function (err) {
         console.error('Error with inital load');
         console.error(err);
     });
 
-// Set in HTML, not used within the file
-// eslint-disable-next-line no-unused-vars
 function closeModal() {
     const modal = document.querySelector('#modal-container');
     modal.classList.remove('is-visible');
