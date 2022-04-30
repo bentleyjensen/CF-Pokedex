@@ -141,7 +141,7 @@ let pokedex = (function () {
 
                 // Title (Pokemon name)
                 let detailTitle = document.createElement('h1');
-                detailTitle.innerHTML = pokemon.name;
+                detailTitle.innerHTML = pokedex.printName(pokemon);
                 detailsDiv.appendChild(detailTitle);
 
                 // Pokemon Picture
@@ -152,10 +152,14 @@ let pokedex = (function () {
 
                 // Pokemon height in decimeters (10 cm)
                 let detailHeight = document.createElement('p');
-                detailHeight.innerHTML = `${pokemon.height} decimeters`;
+                detailHeight.innerHTML = `Height: ${pokemon.height} decimeters`;
                 detailsDiv.appendChild(detailHeight);
 
                 // List of pokemon types
+                let typesHeader = document.createElement('h2');
+                typesHeader.innerHTML = 'Types';
+                detailsDiv.appendChild(typesHeader);
+
                 // Start list
                 let detailTypes = document.createElement('ul');
 
@@ -181,6 +185,10 @@ let pokedex = (function () {
             });
     }
 
+    function printName(pokemon) {
+        return pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
+    }
+
     return {
         showLoadingMessage: showLoadingMessage,
         hideLoadingMessage: hideLoadingMessage,
@@ -191,7 +199,8 @@ let pokedex = (function () {
         get: get,
         remove: remove,
         addToPage: addToPage,
-        showDetails: showDetails
+        showDetails: showDetails,
+        printName: printName
     };
 })();
 
