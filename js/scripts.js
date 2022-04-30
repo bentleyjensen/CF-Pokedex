@@ -105,7 +105,7 @@ let pokedex = (function () {
         let li = document.createElement('li');
         let button = document.createElement('button');
 
-        button.innerText = pokedex.printName(pokemon);
+        button.innerText = pokedex.capitalize(pokemon);
         button.classList.add('pokemon-button');
 
         button.addEventListener('click', function (event) {
@@ -141,7 +141,7 @@ let pokedex = (function () {
 
                 // Title (Pokemon name)
                 let detailTitle = document.createElement('h1');
-                detailTitle.innerHTML = pokedex.printName(pokemon);
+                detailTitle.innerHTML = pokedex.capitalize(pokemon);
                 detailsDiv.appendChild(detailTitle);
 
                 // Pokemon Picture
@@ -167,7 +167,9 @@ let pokedex = (function () {
                 pokemon.types.forEach(function (type) {
                     let typeListItem = document.createElement('li');
                     typeListItem.classList.add('pokemon-type-li');
-                    typeListItem.innerHTML = type;
+
+                    typeListItem.innerHTML = pokedex.capitalize(type.type.name);
+
                     detailTypes.appendChild(typeListItem);
                 });
 
@@ -185,8 +187,17 @@ let pokedex = (function () {
             });
     }
 
-    function printName(pokemon) {
-        return pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
+    function capitalize(input) {
+        let parseString = '';
+
+        // Parse a whole pokemon object
+        if (typeof input === 'object') {
+            parseString = input.name;
+        } else {
+            // But also handle just a string
+            parseString = input;
+        }
+        return parseString[0].toUpperCase() + parseString.slice(1);
     }
 
     return {
@@ -200,7 +211,7 @@ let pokedex = (function () {
         remove: remove,
         addToPage: addToPage,
         showDetails: showDetails,
-        printName: printName
+        capitalize: capitalize
     };
 })();
 
