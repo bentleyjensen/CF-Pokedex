@@ -1,4 +1,4 @@
-const pokedex = (function () {
+const pokedex = (() => {
     let pokemonList = [];
     const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
@@ -24,14 +24,12 @@ const pokedex = (function () {
         pokedex.showLoadingMessage(mainList);
 
         return fetch(apiUrl)
-            .then(function (response){
-                return response.json();
-            })
-            .then(function (json){
-                json.results.forEach(function (result){
+            .then((response) => response.json())
+            .then((json) => {
+                json.results.forEach((result) => {
                     const pokemon = {
                         'name': result.name,
-                        'detailUrl': result.url
+                        'detailUrl': result.url,
                     };
                     const added = pokedex.addToPokedex(pokemon);
                     if (!added) {
@@ -39,10 +37,10 @@ const pokedex = (function () {
                     }
                 });
             })
-            .then(function () {
+            .then(() => {
                 pokedex.hideLoadingMessage(mainList);
             })
-            .catch(function (e) {
+            .catch((e) => {
                 pokedex.hideLoadingMessage(mainList);
                 console.error(e);
             });
@@ -52,24 +50,22 @@ const pokedex = (function () {
     // or if it was passed by reference and doesn't need updated
     function fetchRemoteDetails(pokemon) {
         return fetch(pokemon.detailUrl)
-            .then(function (response){
-                return response.json();
-            })
-            .then(function(details){
+            .then((response) => response.json())
+            .then((details) => {
                 pokemon.imageUrl = details.sprites.front_default;
                 pokemon.height = details.height;
                 pokemon.types = details.types;
 
                 return pokemon;
-            }).catch(function (e) {
+            }).catch((e) => {
                 console.error(e);
             });
     }
 
     function addToPokedex(pokemon) {
-        if (pokemon.name 
-        && pokemon.detailUrl
-        && Object.keys(pokemon).length === 2) {
+        if (pokemon.name
+            && pokemon.detailUrl
+            && Object.keys(pokemon).length === 2) {
             pokemonList.push(pokemon);
             return true;
         }
@@ -108,15 +104,15 @@ const pokedex = (function () {
         button.innerText = pokedex.capitalize(pokemon);
         button.classList.add('pokemon-button');
 
-        button.addEventListener('click', function (event) {
-            pokedex.showDetails(event,pokemon);
+        button.addEventListener('click', (event) => {
+            pokedex.showDetails(event, pokemon);
         });
 
         li.appendChild(button);
         ul.appendChild(li);
     }
 
-    function showDetails(event,pokemon) {
+    function showDetails(event, pokemon) {
         const modal = document.querySelector('#modal');
 
         // Remove details of previous modal open
@@ -131,7 +127,7 @@ const pokedex = (function () {
         // Populate the details for the pokemon
         pokedex.fetchRemoteDetails(pokemon)
             // Create elements for the details
-            .then(function (){
+            .then(() => {
                 // The div where all the details will live
                 const detailsDiv = document.createElement('div');
                 detailsDiv.classList.add('pokemon-details');
@@ -165,7 +161,7 @@ const pokedex = (function () {
                 const detailTypes = document.createElement('ul');
 
                 // Setup Each list item with one type and add to list
-                pokemon.types.forEach(function (type) {
+                pokemon.types.forEach((type) => {
                     const typeListItem = document.createElement('li');
                     typeListItem.classList.add('pokemon-type-li');
 
@@ -181,10 +177,10 @@ const pokedex = (function () {
                 modal.appendChild(detailsDiv);
                 modal.parentElement.classList.add('is-visible');
             })
-            .then(function () {
+            .then(() => {
                 hideLoadingMessage(event.srcElement.parentElement);
             })
-            .catch(function (){
+            .catch(() => {
                 hideLoadingMessage(event.srcElement.parentElement);
             });
     }
@@ -242,7 +238,7 @@ pokedex.fetchRemoteList()
             }
         });
     })
-    .catch(function (err) {
+    .catch((err) => {
         console.error('Error with inital load');
         console.error(err);
     });
