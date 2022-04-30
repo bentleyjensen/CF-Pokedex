@@ -1,9 +1,9 @@
-let pokedex = (function () {
+const pokedex = (function () {
     let pokemonList = [];
     const apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
     function showLoadingMessage(element) {
-        let loader = document.createElement('img');
+        const loader = document.createElement('img');
 
         loader.classList.add('loading-gif');
         loader.src = 'img/loading.gif';
@@ -12,7 +12,7 @@ let pokedex = (function () {
     }
 
     function hideLoadingMessage(element) {
-        let loader = element.querySelector('.loading-gif');
+        const loader = element.querySelector('.loading-gif');
 
         if (loader) {
             loader.remove();
@@ -20,7 +20,7 @@ let pokedex = (function () {
     }
 
     function fetchRemoteList() {
-        let mainList = document.querySelector('#pokemon-list');
+        const mainList = document.querySelector('#pokemon-list');
         pokedex.showLoadingMessage(mainList);
 
         return fetch(apiUrl)
@@ -29,7 +29,7 @@ let pokedex = (function () {
             })
             .then(function (json){
                 json.results.forEach(function (result){
-                    let pokemon = {
+                    const pokemon = {
                         'name': result.name,
                         'detailUrl': result.url
                     };
@@ -85,7 +85,7 @@ let pokedex = (function () {
         if (typeof pokemonName !== 'string') {
             return [];
         }
-        let result = pokemonList.filter(pokemon => pokemon.name === pokemonName);
+        const result = pokemonList.filter(pokemon => pokemon.name === pokemonName);
         return result;
     }
 
@@ -99,11 +99,11 @@ let pokedex = (function () {
 
     function addToPage(pokemon) {
         // Parent Element to append to
-        let ul = document.querySelector('#pokemon-list');
+        const ul = document.querySelector('#pokemon-list');
 
         // Create children to append
-        let li = document.createElement('li');
-        let button = document.createElement('button');
+        const li = document.createElement('li');
+        const button = document.createElement('button');
 
         button.innerText = pokedex.capitalize(pokemon);
         button.classList.add('pokemon-button');
@@ -117,10 +117,10 @@ let pokedex = (function () {
     }
 
     function showDetails(event,pokemon) {
-        let modal = document.querySelector('#modal');
+        const modal = document.querySelector('#modal');
 
         // Remove details of previous modal open
-        let existingDetails = modal.querySelector('.pokemon-details');
+        const existingDetails = modal.querySelector('.pokemon-details');
         if (existingDetails) {
             existingDetails.remove();
         }
@@ -133,7 +133,7 @@ let pokedex = (function () {
             // Create elements for the details
             .then(function (){
                 // The div where all the details will live
-                let detailsDiv = document.createElement('div');
+                const detailsDiv = document.createElement('div');
                 detailsDiv.classList.add('pokemon-details');
 
                 ///////////////////////////
@@ -141,32 +141,32 @@ let pokedex = (function () {
                 ///////////////////////////
 
                 // Title (Pokemon name)
-                let detailTitle = document.createElement('h1');
+                const detailTitle = document.createElement('h1');
                 detailTitle.innerHTML = pokedex.capitalize(pokemon);
                 detailsDiv.appendChild(detailTitle);
 
                 // Pokemon Picture
-                let detailPicture = document.createElement('img');
+                const detailPicture = document.createElement('img');
                 detailPicture.classList.add('.pokemon-details-img');
                 detailPicture.src = pokemon.imageUrl;
                 detailsDiv.appendChild(detailPicture);
 
                 // Pokemon height in decimeters (10 cm)
-                let detailHeight = document.createElement('p');
+                const detailHeight = document.createElement('p');
                 detailHeight.innerHTML = `Height: ${pokemon.height} decimeters`;
                 detailsDiv.appendChild(detailHeight);
 
                 // List of pokemon types
-                let typesHeader = document.createElement('h2');
+                const typesHeader = document.createElement('h2');
                 typesHeader.innerHTML = 'Types';
                 detailsDiv.appendChild(typesHeader);
 
                 // Start list
-                let detailTypes = document.createElement('ul');
+                const detailTypes = document.createElement('ul');
 
                 // Setup Each list item with one type and add to list
                 pokemon.types.forEach(function (type) {
-                    let typeListItem = document.createElement('li');
+                    const typeListItem = document.createElement('li');
                     typeListItem.classList.add('pokemon-type-li');
 
                     typeListItem.innerHTML = pokedex.capitalize(type.type.name);
