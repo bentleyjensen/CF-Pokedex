@@ -234,6 +234,13 @@ pokedex.fetchRemoteList()
                 closeModal();
             }
         });
+
+        // Close an open modal if click is outside modal
+        modal.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                closeModal();
+            }
+        });
     })
     .catch(function (err) {
         console.error('Error with inital load');
