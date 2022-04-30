@@ -105,7 +105,7 @@ let pokedex = (function () {
         let li = document.createElement('li');
         let button = document.createElement('button');
 
-        button.innerText = pokemon.name;
+        button.innerText = pokedex.printName(pokemon);
         button.classList.add('pokemon-button');
 
         button.addEventListener('click', function (event) {
