@@ -52,6 +52,7 @@
   animation: 0.5s spin 1 normal ease-in-out;
 }
 
+.button,
 .pokemon-button {
   display: block;
   padding: 10px 30px;
@@ -84,6 +85,10 @@
 
 .loading-gif {
   display: hidden;
+}
+
+.dialog-button {
+  float: right;
 }
 
 @keyframes spin {

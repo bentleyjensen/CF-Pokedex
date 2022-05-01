@@ -213,16 +213,38 @@ const htmlGenerator = (() => {
         return detailsDiv;
     }
 
-    function confirmDialog(title, text) {
+    function confirmDialog(text) {
         const dialogDiv = document.createElement('div');
-
-        const dialogTitle = document.createElement('h1');
-        dialogTitle.innerHTML= title;
-        dialogDiv.appendChild(dialogTitle);
 
         const dialogText = document.createElement('p');
         dialogText.innerHTML= text;
         dialogDiv.appendChild(dialogText);
+
+        const confirmButton = document.createElement('button');
+        confirmButton.classList.add('dialog-button');
+        confirmButton.classList.add('button');
+        confirmButton.innerHTML = 'Confirm';
+        dialogDiv.appendChild(confirmButton);
+
+        confirmButton.addEventListener('click', () => {
+            modalController.closeModal();
+            return new Promise((resolve) => {
+                resolve();
+            });
+        });
+
+        const cancelButton = document.createElement('button');
+        cancelButton.classList.add('dialog-button');
+        cancelButton.classList.add('button');
+        cancelButton.innerHTML = 'Cancel';
+        dialogDiv.appendChild(cancelButton);
+
+        cancelButton.addEventListener('click', () => {
+            modalController.closeModal();
+            return new Promise((_resolve, reject) => {
+                reject();
+            });
+        });
 
         return dialogDiv;
     }
@@ -301,6 +323,20 @@ pokedex.fetchRemoteList()
                 modalController.closeModal();
             }
         });
+
+        // Clear and fetch pokedex
+        const pokdexClear = document.querySelector('#clear-pokedex');
+        const pokdexFetch = document.querySelector('#fetch-pokedex');
+
+        pokdexClear.addEventListener('click', () => {
+            modalController.openModal('Confirm', htmlGenerator.confirmDialog('Are you sure you want to clear all pokemon from the pokedex?'));
+        });
+
+        pokdexFetch.addEventListener('click', () => {
+            modalController.openModal('Confirm', htmlGenerator.confirmDialog('Are you sure you want to fetch and add all pokemon to the pokedex?'));
+        });
+
+
     })
     .catch((err) => {
         console.error('Error with inital load');
