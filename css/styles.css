@@ -38,18 +38,22 @@
   border-radius: 10px;
 }
 
-.modal-close {
-  float: right;
-  border: 0;
-  background: none;
-  height: 40px;
-  width: 40px;
+.dismiss {
+  height: 1em;
+  width: 1em;
   transform-box: fill-box;
   transform-origin: center;
+  background-image: url("../img/close.svg");
+
+  /* Override Bootstrap Opacity */
+  opacity: 1;
 }
 
-.modal-close:hover {
+.dismiss:hover {
   animation: 0.5s spin 1 normal ease-in-out;
+
+  /* Override Bootstrap Opacity */
+  opacity: 1;
 }
 
 .pokemon-details {

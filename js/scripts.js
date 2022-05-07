@@ -158,9 +158,9 @@ const htmlGenerator = (() => {
         // Add Y margins
         button.classList.add('my-1');
 
-        button.addEventListener('click', (event) => {
-            pokedex.showDetails(event, pokemon);
-        });
+        button.setAttribute('data-bs-toggle', 'modal');
+        button.setAttribute('data-bs-target', '#pokemonDetailsModal');
+        button.setAttribute('data-bs-pokemon', pokemon.name);
 
         return button;
     }
