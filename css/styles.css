@@ -39,14 +39,17 @@
 }
 
 .dismiss {
-  height: 1em;
-  width: 1em;
-  transform-box: fill-box;
-  transform-origin: center;
-  background-image: url("../img/close.svg");
+  /* TODO: Background image needs to be changed via SASS variable */
+  /* https: //getbootstrap.com/docs/5.1/components/close-button/#example */
+  /* background-image: url("../img/close.svg"); */
+  /* height: 1em; */
+  /* width: 1em; */
 
   /* Override Bootstrap Opacity */
-  opacity: 1;
+  /* opacity: 1; */
+
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .dismiss:hover {
