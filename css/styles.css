@@ -52,26 +52,6 @@
   animation: 0.5s spin 1 normal ease-in-out;
 }
 
-.button,
-.pokemon-button {
-  display: block;
-  padding: 10px 30px;
-  margin: 10px;
-  background-color: lightgray;
-  border: 3px solid lightgray;
-  border-radius: 4px;
-}
-
-.pokemon-button:hover {
-  background-color: gray;
-  border: 3px solid gray;
-}
-
-.pokemon-button:active {
-  border: 3px solid darkgray;
-  background-color: darkgray;
-}
-
 .pokemon-details {
   display: block;
   width: 30%;

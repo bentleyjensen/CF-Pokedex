@@ -153,6 +153,10 @@ const htmlGenerator = (() => {
 
         button.innerText = pokedex.capitalize(pokemon);
         button.classList.add('pokemon-button');
+        button.classList.add('btn');
+        button.classList.add('btn-primary');
+        // Add Y margins
+        button.classList.add('my-1');
 
         button.addEventListener('click', (event) => {
             pokedex.showDetails(event, pokemon);
