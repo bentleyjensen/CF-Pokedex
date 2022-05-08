@@ -192,26 +192,45 @@ const htmlGenerator = (() => {
         // The div where all the details will live
         const detailsDiv = document.createElement('div');
         detailsDiv.classList.add('pokemon-details');
+        detailsDiv.classList.add('container');
 
         ///////////////////////////
         // Detail Children Elements
         ///////////////////////////
 
         // Pokemon Picture
+        const imgRow = document.createElement('div');
+        imgRow.classList.add('row');
         const detailPicture = document.createElement('img');
-        detailPicture.classList.add('.pokemon-details-img');
+        // detailPicture.classList.add('pokemon-details-img');
+        detailPicture.classList.add('img-fluid');
+        detailPicture.classList.add('border');
+        detailPicture.classList.add('border-2');
+        detailPicture.classList.add('col-xs-8');
+        detailPicture.classList.add('col-sm-6');
+        detailPicture.classList.add('col-md-5');
+        detailPicture.classList.add('col-lg-4');
+        detailPicture.classList.add('col-xl-3');
         detailPicture.src = pokemon.imageUrl;
-        detailsDiv.appendChild(detailPicture);
+        imgRow.appendChild(detailPicture);
+        detailsDiv.appendChild(imgRow);
 
         // Pokemon height in decimeters (10 cm)
+        const heightRow = document.createElement('div');
+        heightRow.classList.add('row');
         const detailHeight = document.createElement('p');
+        detailHeight.classList.add('col');
         detailHeight.innerHTML = `Height: ${pokemon.height} decimeters`;
-        detailsDiv.appendChild(detailHeight);
+        heightRow.appendChild(detailHeight);
+        detailsDiv.appendChild(heightRow);
 
         // List of pokemon types
-        const typesHeader = document.createElement('h5');
+        const typesRow = document.createElement('div');
+        typesRow.classList.add('row');
+        const typesHeader = document.createElement('h6');
+        typesHeader.classList.add('col');
         typesHeader.innerHTML = 'Types';
-        detailsDiv.appendChild(typesHeader);
+        typesRow.appendChild(typesHeader);
 
         // Start list
         const detailTypes = document.createElement('ul');
@@ -229,7 +248,8 @@ const htmlGenerator = (() => {
         });
 
         // Append full list to the details
-        detailsDiv.appendChild(detailTypes);
+        typesRow.appendChild(detailTypes);
+        detailsDiv.appendChild(typesRow);
 
         // Return copmleted element
         return detailsDiv;
