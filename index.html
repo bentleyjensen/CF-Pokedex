@@ -11,9 +11,6 @@
         <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
-        <header>
-            <h1>Bentley's Pokedex</h1>
-        </header>
         <main>
             <!-- <div id="modal-container">
                 <div id="modal">
@@ -23,7 +20,7 @@
                 </div>
             </div> -->
 
-            <!-- Bootstrap Modal -->
+            <!-- Pokemon Details Modal -->
             <div class="modal fade" id="pokemonDetailsModal" tabindex="-1" aria-labelledby="pokemon-name-title" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -42,6 +39,7 @@
                 </div>
             </div>
 
+            <!-- Confirm Dialog Modal -->
             <div class="modal fade" id="confirmDialog" tabindex="-1" aria-labelledby="confirm-dialog-title" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -57,10 +55,36 @@
                     </div>
                 </div>
             </div>
-            <div class="pokdex-buttons">
-                <button id="clear-pokedex" class="button">Clear Pokemon</button>
-                <button id="fetch-pokedex" class="button">Fetch Pokemon</button>
-            </div>
+
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-light navbar-bg-light">
+                <div class="container-fluid">
+                    <h1 class="navbar-brand">Bentley's Pokedex</h1>
+                    <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle Navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto  me-0 mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Fetch Pokedex</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Clear Pokedex</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
             <div class="container my-3 gy-1 gx-3">
                 <div class="row" id="pokemon-list"></div>
             </div>

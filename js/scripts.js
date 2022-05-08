@@ -95,7 +95,8 @@ const pokedex = (() => {
         containerCol.classList.add('col-xs');
         containerCol.classList.add('col-sm-6');
         containerCol.classList.add('col-md-4');
-        containerCol.classList.add('col-lg-2');
+        containerCol.classList.add('col-lg-3');
+        containerCol.classList.add('col-xl-2');
 
         // Create children to append
         // const row = document.createElement('div');
