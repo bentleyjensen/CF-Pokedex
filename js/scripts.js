@@ -87,11 +87,16 @@ const pokedex = (() => {
         return true;
     }
 
+    function clear() {
+        pokemonList = [];
+    }
+
     function addToPage(pokemon) {
         // Parent Element to append to
         const containerRow = document.querySelector('#pokemon-list');
         const containerCol = document.createElement('div');
 
+        // Responsive Breakpoints
         containerCol.classList.add('col-xs');
         containerCol.classList.add('col-sm-6');
         containerCol.classList.add('col-md-4');
@@ -99,8 +104,6 @@ const pokedex = (() => {
         containerCol.classList.add('col-xl-2');
 
         // Create children to append
-        // const row = document.createElement('div');
-        // row.classList.add('row');
         const button = htmlGenerator.pokemonButton(pokemon);
         button.classList.add('pokemon-button');
 
@@ -143,6 +146,7 @@ const pokedex = (() => {
         getAll: getAll,
         get: get,
         remove: remove,
+        clear: clear,
         addToPage: addToPage,
         showDetails: showDetails,
         capitalize: capitalize,
@@ -192,11 +196,6 @@ const htmlGenerator = (() => {
         ///////////////////////////
         // Detail Children Elements
         ///////////////////////////
-
-        // Title (Pokemon name)
-        // const detailTitle = document.createElement('h1');
-        // detailTitle.innerHTML = pokedex.capitalize(pokemon);
-        // detailsDiv.appendChild(detailTitle);
 
         // Pokemon Picture
         const detailPicture = document.createElement('img');
@@ -272,12 +271,18 @@ const htmlGenerator = (() => {
         return dialogDiv;
     }
 
+    function clearList() {
+        const list = document.querySelector('#pokemon-list');
+        list.innerHTML = '';
+    }
+
     return {
         showLoadingMessage: showLoadingMessage,
         hideLoadingMessage: hideLoadingMessage,
         pokemonButton: pokemonButton,
         pokemonDetails: pokemonDetails,
         confirmDialog: confirmDialog,
+        clearList: clearList,
     };
 })();
 
@@ -346,26 +351,28 @@ pokedex.fetchRemoteList()
     })
     // Do some other miscelaneous page setup
     .then(() => {
-        // const modal = document.querySelector('#modal-container');
-
-        // Clear and fetch pokedex
-        // const pokdexClear = document.querySelector('#clear-pokedex');
-        // const pokdexFetch = document.querySelector('#fetch-pokedex');
-
-        // pokdexClear.addEventListener('click', () => {
-        //     modalController.openModal('Confirm', htmlGenerator.confirmDialog('Are you sure you want to clear all pokemon from the pokedex?'));
-        // });
-
-        // pokdexFetch.addEventListener('click', () => {
-        //     modalController.openModal('Confirm', htmlGenerator.confirmDialog('Are you sure you want to fetch and add all pokemon to the pokedex?'));
-        // });
-
         const modalPokemonDetails = document.querySelector('#pokemonDetailsModal');
 
         modalPokemonDetails.addEventListener('show.bs.modal', modalController.populateModal);
         modalPokemonDetails.addEventListener('hide.bs.modal', modalController.clearModal);
 
-
+        const buttonFetchPokedex = document.querySelector('#fetchPokedex');
+        const buttonClearPokedex = document.querySelector('#confirmConfirm');
+        
+        buttonFetchPokedex.addEventListener('click', () => {
+            pokedex.fetchRemoteList()
+                .then(() => {
+                    pokedex.getAll().forEach(pokedex.addToPage);
+                })
+                .catch((err) => {
+                    console.log('Error fetching remote list', err);
+                });
+        });
+        
+        buttonClearPokedex.addEventListener('click', () => {
+            pokedex.clear();
+            htmlGenerator.clearList();
+        });
     })
     .catch((err) => {
         console.error('Error with inital load');

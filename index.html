@@ -27,7 +27,6 @@
                         <div class="modal-header">
                             <h4 class="modal-title" id="pokemon-name-title">Pokemon Details</h4>
                             <button class="btn-close dismiss" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </button>
                         </div>
                         <div class="modal-body">
 
@@ -43,15 +42,17 @@
             <div class="modal fade" id="confirmDialog" tabindex="-1" aria-labelledby="confirm-dialog-title" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <h5 class="modal-title" id="confirm-dialog-title">Confirm</h5>
-                        <button class="btn-close dismiss" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        This action is irreversible.
-                    </div>
-                    <div class="footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">I Understand</button>
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="confirm-dialog-title">Confirm</h4>
+                            <button class="btn-close dismiss" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            This action is irreversible.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="confirmClose">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="confirmConfirm">I Understand</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,10 +76,10 @@
                                 <a class="nav-link active" href="#">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">Fetch Pokedex</a>
+                                <a class="nav-link active" href="#" id="fetchPokedex">Fetch Pokedex</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">Clear Pokedex</a>
+                                <a class="nav-link active" href="#" id="clearPokedex" data-bs-toggle="modal" data-bs-target="#confirmDialog">Clear Pokedex</a>
                             </li>
                         </ul>
                     </div>
