@@ -218,11 +218,13 @@ const htmlGenerator = (() => {
 
         // Start list
         const detailTypes = document.createElement('ul');
+        detailTypes.classList.add('list-group');
 
         // Setup Each list item with one type and add to list
         pokemon.types.forEach((type) => {
             const typeListItem = document.createElement('li');
             typeListItem.classList.add('pokemon-type-li');
+            typeListItem.classList.add('list-group-item');
 
             // The API returns other metadata about types
             // So it looks messy, but we're extracting only the name
