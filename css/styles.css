@@ -29,6 +29,10 @@
   height: 150px;
 }
 
+.pokemon-button {
+  width: 100%;
+}
+
 .loading-gif {
   display: hidden;
 }

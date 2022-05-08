@@ -89,14 +89,22 @@ const pokedex = (() => {
 
     function addToPage(pokemon) {
         // Parent Element to append to
-        const ul = document.querySelector('#pokemon-list');
+        const containerRow = document.querySelector('#pokemon-list');
+        const containerCol = document.createElement('div');
+
+        containerCol.classList.add('col-xs');
+        containerCol.classList.add('col-sm-6');
+        containerCol.classList.add('col-md-4');
+        containerCol.classList.add('col-lg-2');
 
         // Create children to append
-        const li = document.createElement('li');
+        // const row = document.createElement('div');
+        // row.classList.add('row');
         const button = htmlGenerator.pokemonButton(pokemon);
+        button.classList.add('pokemon-button');
 
-        li.appendChild(button);
-        ul.appendChild(li);
+        containerCol.appendChild(button);
+        containerRow.appendChild(containerCol);
     }
 
     function showDetails(event, pokemon) {
@@ -354,6 +362,7 @@ pokedex.fetchRemoteList()
         const modalPokemonDetails = document.querySelector('#pokemonDetailsModal');
 
         modalPokemonDetails.addEventListener('show.bs.modal', modalController.populateModal);
+        modalPokemonDetails.addEventListener('hide.bs.modal', modalController.clearModal);
 
 
     })
