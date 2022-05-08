@@ -25,20 +25,12 @@
   opacity: 1;
 }
 
-.pokemon-details-img {
-  height: 150px;
-}
-
 .pokemon-button {
   width: 100%;
 }
 
 .loading-gif {
   display: hidden;
-}
-
-.dialog-button {
-  float: right;
 }
 
 @keyframes spin {

@@ -111,21 +111,6 @@ const pokedex = (() => {
         containerRow.appendChild(containerCol);
     }
 
-    function showDetails(event, pokemon) {
-        // Populate the details for the pokemon
-        pokedex.fetchRemoteDetails(pokemon)
-            // Create elements for the details
-            .then(() => {
-                modalController.openModal(pokemon.name, htmlGenerator.pokemonDetails(pokemon));
-            })
-            .then(() => {
-                htmlGenerator.hideLoadingMessage(event.srcElement.parentElement);
-            })
-            .catch(() => {
-                htmlGenerator.hideLoadingMessage(event.srcElement.parentElement);
-            });
-    }
-
     function capitalize(input) {
         let parseString = '';
 
@@ -148,7 +133,6 @@ const pokedex = (() => {
         remove: remove,
         clear: clear,
         addToPage: addToPage,
-        showDetails: showDetails,
         capitalize: capitalize,
     };
 })();
@@ -255,42 +239,6 @@ const htmlGenerator = (() => {
         return detailsDiv;
     }
 
-    function confirmDialog(text) {
-        const dialogDiv = document.createElement('div');
-
-        const dialogText = document.createElement('p');
-        dialogText.innerHTML= text;
-        dialogDiv.appendChild(dialogText);
-
-        const confirmButton = document.createElement('button');
-        confirmButton.classList.add('dialog-button');
-        confirmButton.classList.add('button');
-        confirmButton.innerHTML = 'Confirm';
-        dialogDiv.appendChild(confirmButton);
-
-        confirmButton.addEventListener('click', () => {
-            modalController.closeModal();
-            return new Promise((resolve) => {
-                resolve();
-            });
-        });
-
-        const cancelButton = document.createElement('button');
-        cancelButton.classList.add('dialog-button');
-        cancelButton.classList.add('button');
-        cancelButton.innerHTML = 'Cancel';
-        dialogDiv.appendChild(cancelButton);
-
-        cancelButton.addEventListener('click', () => {
-            modalController.closeModal();
-            return new Promise((_resolve, reject) => {
-                reject();
-            });
-        });
-
-        return dialogDiv;
-    }
-
     function clearList() {
         const list = document.querySelector('#pokemon-list');
         list.innerHTML = '';
@@ -301,28 +249,13 @@ const htmlGenerator = (() => {
         hideLoadingMessage: hideLoadingMessage,
         pokemonButton: pokemonButton,
         pokemonDetails: pokemonDetails,
-        confirmDialog: confirmDialog,
         clearList: clearList,
     };
 })();
 
 const modalController = (() => {
-    const modalContainer = document.querySelector('#modal-container');
     const modalTitle = document.querySelector('#modal-title');
     const modalBody = document.querySelector('#modal-body');
-
-    function openModal(title, content) {
-        modalController.clearModal();
-        modalContainer.classList.add('is-visible');
-        modalController.populateModal(title, content);
-    }
-    
-    function closeModal() {
-        // set hidden
-        modalContainer.classList.remove('is-visible');
-        // clear contents
-        modalController.clearModal();
-    }
 
     function populateModal(event) {
         const pokemonName = event.relatedTarget.getAttribute('data-bs-pokemon');
@@ -351,9 +284,7 @@ const modalController = (() => {
     }
 
     return {
-        openModal:openModal,
-        closeModal:closeModal,
-        populateModal:populateModal,
+        populateModal: populateModal,
         clearModal: clearModal,
     };
 })();
