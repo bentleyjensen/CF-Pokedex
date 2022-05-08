@@ -29,27 +29,35 @@ const pokedex = (() => {
             });
     }
 
-    // TODO: Figure out if we need to return the new pokemon,
-    // or if it was passed by reference and doesn't need updated
     function fetchRemoteDetails(pokemon) {
-        return fetch(pokemon.detailUrl)
-            .then((response) => response.json())
-            .then((details) => {
-                pokemon.imageUrl = details.sprites.front_default;
-                pokemon.height = details.height;
-                pokemon.types = details.types;
+        return new Promise((resolve, reject) => {
+            // When given just the pokemon name, we need to fetch the whole object
+            if (typeof pokemon === 'string') {
+                pokemon = pokedex.get(pokemon.toLowerCase())[0];
+            }
 
-                return pokemon;
-            }).catch((e) => {
-                console.error(e);
-            });
+            if (pokemon.detailUrl === undefined) {
+                return reject('pokemon did not have a detailUrl to fetch');
+            }
+
+            fetch(pokemon.detailUrl)
+                .then((response) => response.json())
+                .then((details) => {
+                    pokemon.imageUrl = details.sprites.front_default;
+                    pokemon.height = details.height;
+                    pokemon.types = details.types;
+
+                    return resolve(pokemon);
+                }).catch((e) => {
+                    return reject(e);
+                });
+        });
     }
 
     function addToPokedex(pokemon) {
         if (pokemon.name
             && pokemon.detailUrl
             && Object.keys(pokemon).length === 2) {
-            pokemon.name = capitalize(pokemon.name);
             pokemonList.push(pokemon);
             return true;
         }
@@ -63,8 +71,10 @@ const pokedex = (() => {
 
     function get(pokemonName) {
         if (typeof pokemonName !== 'string') {
+            console.log('Could not get pokemon: name was not of type \'string\'');
             return [];
         }
+
         const result = pokemonList.filter(pokemon => pokemon.name === pokemonName);
         return result;
     }
@@ -151,7 +161,7 @@ const htmlGenerator = (() => {
     function pokemonButton(pokemon) {
         const button = document.createElement('button');
 
-        button.innerText = pokedex.capitalize(pokemon);
+        button.textContent = pokedex.capitalize(pokemon);
         button.classList.add('pokemon-button');
         button.classList.add('btn');
         button.classList.add('btn-primary');
@@ -191,7 +201,7 @@ const htmlGenerator = (() => {
         detailsDiv.appendChild(detailHeight);
 
         // List of pokemon types
-        const typesHeader = document.createElement('h2');
+        const typesHeader = document.createElement('h5');
         typesHeader.innerHTML = 'Types';
         detailsDiv.appendChild(typesHeader);
 
@@ -280,11 +290,22 @@ const modalController = (() => {
         modalController.clearModal();
     }
 
-    function populateModal(title, content) {
-        modalTitle.innerHTML = title;
-        // Set blank to remove loader before adding new content
-        modalBody.innerHTML = '';
-        modalBody.appendChild(content);
+    function populateModal(event) {
+        const pokemonName = event.relatedTarget.getAttribute('data-bs-pokemon');
+
+        pokedex.fetchRemoteDetails(pokemonName)
+            .then((pokemonDetails) => {
+
+                const modalTitle = document.querySelector('.modal-title');
+                modalTitle.textContent = pokedex.capitalize(pokemonName);
+
+                const modalBody = document.querySelector('.modal-body');
+                modalBody.innerHTML = '';
+                modalBody.appendChild(htmlGenerator.pokemonDetails(pokemonDetails));
+            })
+            .catch((err) => {
+                console.log('Error when loading modal', pokemonName, err);
+            });
     }
 
     function clearModal() {
@@ -303,42 +324,36 @@ const modalController = (() => {
     };
 })();
 
+//////////////////////////////////////////////////
+// Initial Page Setup
+//////////////////////////////////////////////////
+
 // First, get all the pokemons
 pokedex.fetchRemoteList()
     // Then add the pokemon to the page
-    .then(function() {
+    .then(() => {
         // Print each pokemon
         pokedex.getAll().forEach(pokedex.addToPage);
     })
     // Do some other miscelaneous page setup
-    .then(function() {
-        const modal = document.querySelector('#modal-container');
-
-        // Close an open modal when escape is pressed
-        document.addEventListener('keyup', (event) => {
-            if (event.key === 'Escape' && modal.classList.contains('is-visible')) {
-                modalController.closeModal();
-            }
-        });
-
-        // Close an open modal if click is outside modal
-        modal.addEventListener('click', (event) => {
-            if (event.target == modal) {
-                modalController.closeModal();
-            }
-        });
+    .then(() => {
+        // const modal = document.querySelector('#modal-container');
 
         // Clear and fetch pokedex
-        const pokdexClear = document.querySelector('#clear-pokedex');
-        const pokdexFetch = document.querySelector('#fetch-pokedex');
+        // const pokdexClear = document.querySelector('#clear-pokedex');
+        // const pokdexFetch = document.querySelector('#fetch-pokedex');
 
-        pokdexClear.addEventListener('click', () => {
-            modalController.openModal('Confirm', htmlGenerator.confirmDialog('Are you sure you want to clear all pokemon from the pokedex?'));
-        });
+        // pokdexClear.addEventListener('click', () => {
+        //     modalController.openModal('Confirm', htmlGenerator.confirmDialog('Are you sure you want to clear all pokemon from the pokedex?'));
+        // });
 
-        pokdexFetch.addEventListener('click', () => {
-            modalController.openModal('Confirm', htmlGenerator.confirmDialog('Are you sure you want to fetch and add all pokemon to the pokedex?'));
-        });
+        // pokdexFetch.addEventListener('click', () => {
+        //     modalController.openModal('Confirm', htmlGenerator.confirmDialog('Are you sure you want to fetch and add all pokemon to the pokedex?'));
+        // });
+
+        const modalPokemonDetails = document.querySelector('#pokemonDetailsModal');
+
+        modalPokemonDetails.addEventListener('show.bs.modal', modalController.populateModal);
 
 
     })

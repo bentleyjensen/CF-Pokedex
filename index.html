@@ -22,13 +22,14 @@
                     <div id="modal-body"></div>
                 </div>
             </div> -->
+
             <!-- Bootstrap Modal -->
             <div class="modal fade" id="pokemonDetailsModal" tabindex="-1" aria-labelledby="pokemon-name-title" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="pokemon-name-title">Pokemon Details</h5>
-                            <button class="btn-close dismiss" data-bs-data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h4 class="modal-title" id="pokemon-name-title">Pokemon Details</h4>
+                            <button class="btn-close dismiss" data-bs-dismiss="modal" aria-label="Close"></button>
                             </button>
                         </div>
                         <div class="modal-body">
@@ -37,6 +38,22 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="confirmDialog" tabindex="-1" aria-labelledby="confirm-dialog-title" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <h5 class="modal-title" id="confirm-dialog-title">Confirm</h5>
+                        <button class="btn-close dismiss" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        This action is irreversible.
+                    </div>
+                    <div class="footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">I Understand</button>
                     </div>
                 </div>
             </div>
