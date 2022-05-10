@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box
+}
+
+.dismiss {
+  transform-box: fill-box;
+  transform-origin: center;
+  background-image: url("../img/close.svg");
+  height: 1em;
+  width: 1em;
+  opacity: 1
+}
+
+.dismiss:hover {
+  animation: .5s spin 1 normal ease-in-out;
+  opacity: 1
+}
+
+.pokemon-button {
+  width: 100%
+}
+
+.loading-gif {
+  display: hidden
+}
+
+@keyframes spin {
+  0% {
+  transform: rotate(0)
+  }
+
+  100% {
+  transform: rotate(90deg)
+  }
+}
