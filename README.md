@@ -4,6 +4,8 @@ This is Achievement 1 for the Full Stack Immersion course from CareerFoundry.com
 
 It's a basic pokedex, fetching pokemon from the public [pokemon API](https://pokeapi.co/). As of this writing, it only shows an image, the pokemon's height, and the types of the pokemon, though I hope to expand this later.
 
+This project is currently deployed via Github Pages, and is available [here](https://bentleyjensen.github.io/CF-Pokedex/).
+
 ## This project's features include:
 * Fetching data from an external API
 * Custom CSS animation
